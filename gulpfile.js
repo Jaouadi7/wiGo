@@ -9,6 +9,8 @@ const sassCompiler = require('sass');
 const gulpSass = require('gulp-sass');
 const autoPrefixer = require('gulp-autoprefixer');
 const sourceMaps = require('gulp-sourcemaps');
+const browserify = require('browserify');
+const babelify = require('babelify');
 
 const sass = gulpSass(sassCompiler);
 import options from './config';
@@ -73,6 +75,22 @@ const buildCSS = (done) => {
     .pipe(autoPrefixer({ cascade: false }))
     .pipe(sourceMaps.write('.'))
     .pipe(dest(`${production}css/`))
+    .pipe(browserSync.reload({ stream: true }));
+  done();
+};
+
+//---------------------------------------
+//         SETUP JS TASK            ---
+//---------------------------------------
+
+const buildJS = (done) => {
+  browserify({
+    entries: [`${options.paths.src.js}/main.js`],
+    transform: [babelify.configure({ presets: ['@babel/preset-env'] })],
+  })
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(dest(`${production}/js`))
     .pipe(browserSync.reload({ stream: true }));
   done();
 };

@@ -16,7 +16,7 @@
     "url": "https://github.com/Jaouadi7/wigo/issues"
   },
   "homepage": "https://github.com/Jaouadi7/wigo#readme",
-  "dependencies": {
+  "devDependencies": {
     "gulp": "^4.0.2"
   }
 }

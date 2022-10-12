@@ -1,0 +1,19 @@
+{
+  "name": "wigo",
+  "version": "1.0.0",
+  "description": "Front-end Workflow using gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaouadi7/wigo.git"
+  },
+  "author": "Mohamed A. Eljaouadi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jaouadi7/wigo/issues"
+  },
+  "homepage": "https://github.com/Jaouadi7/wigo#readme"
+}

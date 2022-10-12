@@ -5,6 +5,12 @@
 const { src, dest, parallel, series, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const panini = require('panini');
+const sassCompiler = require('sass');
+const gulpSass = require('gulp-sass');
+const autoPrefixer = require('gulp-autoprefixer');
+const sourceMaps = require('gulp-sourcemaps');
+
+const sass = gulpSass(sassCompiler);
 import options from './config';
 
 //---------------------------------------
@@ -52,6 +58,21 @@ const buildHTML = (done) => {
       })
     )
     .pipe(dest(production))
+    .pipe(browserSync.reload({ stream: true }));
+  done();
+};
+
+//---------------------------------------
+//         SETUP CSS TASK            ---
+//---------------------------------------
+
+const buildCSS = (done) => {
+  src(`${development}scss/core.scss`)
+    .pipe(sourceMaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(autoPrefixer({ cascade: false }))
+    .pipe(sourceMaps.write('.'))
+    .pipe(dest(`${production}css/`))
     .pipe(browserSync.reload({ stream: true }));
   done();
 };

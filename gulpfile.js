@@ -4,6 +4,7 @@
 
 const { src, dest, parallel, series, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
+const panini = require('panini');
 import options from './config';
 
 //---------------------------------------
@@ -31,5 +32,26 @@ const start_server = (done) => {
 // RELOAD THE BROWSER
 const reload = (done) => {
   browserSync.reload;
+  done();
+};
+
+//---------------------------------------
+//         SETUP HTML TASK            ---
+//---------------------------------------
+
+const buildHTML = (done) => {
+  panini.refresh();
+  src(`${development}html/pages/**/*.html`)
+    .pipe(
+      panini({
+        root: `${development}html/pages/`,
+        layouts: `${development}html/layouts/`,
+        partials: `${development}html/partials/`,
+        helpers: `${development}html/helpers/`,
+        data: `${development}html/data/`,
+      })
+    )
+    .pipe(dest(production))
+    .pipe(browserSync.reload({ stream: true }));
   done();
 };

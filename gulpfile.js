@@ -117,3 +117,35 @@ const fonts = (done) => {
     .pipe(browserSync.reload({ stream: true }));
   done();
 };
+
+//---------------------------------------
+//             ASSETS TASK            ---
+//---------------------------------------
+
+const assets = () => {
+  // BULMA
+  const bulma = src(`${node_modules}bulma/*.sass`)
+    .pipe(sass().on('Error', sass.logError))
+    .pipe(dest(`${production.css}/assets/`));
+
+  // FONTAWESOME
+  const lineawesome_css = src(
+    `${node_modules}line-awesome/dist/line-awesome/css/line-awesome.css`
+  ).pipe(dest(`${production.fonts}/lineawesome/css`));
+
+  //WEBFONTS DIR
+  const webfonts = src(
+    `${node_modules}line-awesome/dist/line-awesome/fonts/*`
+  ).pipe(dest(`${production.fonts}/lineawesome/fonts`));
+
+  //HTML5SHIV.JS
+  const HTML5shiv = src(`${node_modules}html5shiv/dist/html5shiv.min.js`).pipe(
+    dest(`${production.js}/assets`)
+  );
+  //RESPOND.JS
+  const respond = src(`${node_modules}respond.js/dest/respond.min.js`).pipe(
+    dest(`${production.js}/assets`)
+  );
+
+  return merge(bulma, lineawesome_css, webfonts, HTML5shiv, respond);
+};

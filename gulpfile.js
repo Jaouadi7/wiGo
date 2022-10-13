@@ -263,3 +263,19 @@ const dev = (done) => {
   watch(`${development}fonts/**/*`, series(fonts, reload));
   done();
 };
+
+//------------------------------------
+//            DEFINE TASKS         ---
+//------------------------------------
+
+exports.watch = parallel(start_server, assets, dev);
+exports.html = buildHTML;
+exports.css = buildCSS;
+exports.js = buildJS;
+exports.images = optimizeImages;
+exports.fonts = fonts;
+exports.assets = assets;
+exports.build = previewMode;
+exports.deploy = netlifyDeploy;
+exports.complete = productionMode;
+exports.default = parallel(start_server, assets, dev);

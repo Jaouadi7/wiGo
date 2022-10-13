@@ -106,3 +106,14 @@ const optimizeImages = (done) => {
     .pipe(dest(production.img));
   done();
 };
+
+//---------------------------------------
+//          SETUP FONTS TASK          ---
+//---------------------------------------
+
+const fonts = (done) => {
+  src(`${development.fonts}/**/*`)
+    .pipe(dest(production.fonts))
+    .pipe(browserSync.reload({ stream: true }));
+  done();
+};

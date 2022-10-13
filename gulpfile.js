@@ -11,6 +11,7 @@ const autoPrefixer = require('gulp-autoprefixer');
 const sourceMaps = require('gulp-sourcemaps');
 const browserify = require('browserify');
 const babelify = require('babelify');
+const optimizeImages = require('gulp-image');
 
 const sass = gulpSass(sassCompiler);
 import options from './config';
@@ -92,5 +93,16 @@ const buildJS = (done) => {
     .pipe(source('bundle.js'))
     .pipe(dest(`${production}/js`))
     .pipe(browserSync.reload({ stream: true }));
+  done();
+};
+
+//---------------------------------------
+//      SETUP OPTIMIZE IMG TASK       ---
+//---------------------------------------
+
+const optimizeImages = (done) => {
+  src(`${development.img}/**/*`)
+    .pipe(optimizeImages())
+    .pipe(dest(production.img));
   done();
 };

@@ -4,7 +4,10 @@
   "description": "Front-end Workflow using gulp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "gulp watch",
+    "minify": "gulp minify",
+    "deploy": "gulp deploy",
+    "complete": "gulp complete"
   },
   "repository": {
     "type": "git",

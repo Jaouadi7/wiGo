@@ -216,3 +216,13 @@ const previewMode = (done) => {
 
   done();
 };
+
+const netlifyDeploy = (done) => {
+  src(options.paths.build.base).pipe(
+    netlify({
+      site_id: '#', //WEBSITE ID ON NETLIFY
+      access_token: '#', // YOUR ACCESS TOKEN ON NETLIFY
+    })
+  );
+  done();
+};

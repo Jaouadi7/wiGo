@@ -67,12 +67,12 @@ const buildHTML = (done) => {
 //---------------------------------------
 
 const buildCSS = (done) => {
-  src(`${development}scss/core.scss`)
+  src(`${development.scss}/core.scss`)
     .pipe(sourceMaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(autoPrefixer({ cascade: false }))
     .pipe(sourceMaps.write('.'))
-    .pipe(dest(`${production}css/`))
+    .pipe(dest(production.css))
     .pipe(browserSync.reload({ stream: true }));
   done();
 };

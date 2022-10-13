@@ -6,9 +6,9 @@ export default {
     root: './',
     src: {
       base: './src',
-      css: './src/css',
+      css: './src/scss',
       js: './src/js',
-      img: './src/img',
+      img: './src/images',
     },
     dist: {
       base: './dist',

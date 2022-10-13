@@ -12,6 +12,9 @@ const sourceMaps = require('gulp-sourcemaps');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const optimizeImages = require('gulp-image');
+const fs = require('fs');
+const cleanCSS = require('gulp-clean-css');
+const minify = require('gulp-minify');
 
 const sass = gulpSass(sassCompiler);
 import options from './config';
@@ -148,4 +151,68 @@ const assets = () => {
   );
 
   return merge(bulma, lineawesome_css, webfonts, HTML5shiv, respond);
+};
+
+//-------------------------------------
+//   PREVIEW MODE [ MINIFY FILES]   ---
+//-------------------------------------
+
+const previewMode = (done) => {
+  if (fs.existsSync(options.paths.build)) {
+    src(options.paths.build).pipe(clean({ force: true }));
+  }
+
+  // MINIFY HTML
+  src(`${development}html/pages/**/*.html`)
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(dest(options.paths.build));
+
+  // MINIFY CSS
+  src(`${development.scss}/core.scss`)
+    .pipe(
+      sass({
+        outputStyle: 'compressed',
+      }).on('error', sass.logError)
+    )
+    .pipe(
+      autoPrefixer({
+        cascade: false,
+      })
+    )
+    .pipe(cleanCSS())
+    .pipe(dest(options.paths.build.css));
+
+  // BULMA
+  src(`${node_modules}bulma/*.sass`)
+    .pipe(
+      sass({
+        outputStyle: 'compressed',
+      }).on('Error', sass.logError)
+    )
+    .pipe(cleanCSS())
+    .pipe(dest(`${options.paths.build.css}/assets/`));
+
+  // FONT AWESOME
+  src(`${node_modules}line-awesome/dist/line-awesome/css/line-awesome.css`)
+    .pipe(cleanCSS())
+    .pipe(dest(`${options.paths.build.fonts}/fontawesome/css`));
+
+  // MINIFY JS
+  src(`${options.paths.src.js}/scripts/*.js`)
+    .pipe(
+      minify({
+        ext: {
+          min: '.js',
+        },
+        noSource: true,
+      })
+    )
+    .pipe(dest(options.paths.build.js));
+
+  // COMPRESS IMAGES
+  src(`${options.paths.src.img}/*`)
+    .pipe(images())
+    .pipe(dest(options.paths.build.img));
+
+  done();
 };

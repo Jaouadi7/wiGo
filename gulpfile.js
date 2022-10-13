@@ -15,6 +15,7 @@ const optimizeImages = require('gulp-image');
 const fs = require('fs');
 const cleanCSS = require('gulp-clean-css');
 const minify = require('gulp-minify');
+const zip = require('gulp-zip');
 
 const sass = gulpSass(sassCompiler);
 import options from './config';
@@ -224,5 +225,28 @@ const netlifyDeploy = (done) => {
       access_token: '#', // YOUR ACCESS TOKEN ON NETLIFY
     })
   );
+  done();
+};
+
+//------------------------------------------------------
+//       PRODUCTION MODE  [ COMPLETE PROJECT  ]      ---
+//------------------------------------------------------
+
+const productionMode = (done) => {
+  if (fs.existsSync('./client')) {
+    src('./client').pipe(clean({ force: true }));
+  }
+  if (fs.existsSync('./build')) {
+    src('./build').pipe(clean({ force: true }));
+  }
+  src([
+    './**[^node_modules]/**/*',
+    './gulpfile.js',
+    './package-lock.json',
+    './package.json',
+  ])
+    .pipe(zip('project-files.zip'))
+    .pipe(dest('./client/'));
+
   done();
 };

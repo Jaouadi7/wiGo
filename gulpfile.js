@@ -250,3 +250,16 @@ const productionMode = (done) => {
 
   done();
 };
+
+//---------------------------------------------
+//   SETUP DEVELOPMENT TASK  ( WATCH TASK)  ---
+//---------------------------------------------
+
+const dev = (done) => {
+  watch(`${development}html/pages/**/*.html`, series(buildHTML, reload));
+  watch(`${development}scss/core.scss`, series(buildCSS, reload));
+  watch(`${development}js/**/*.js`, series(buildJS, reload));
+  watch(`${development}images/**/*`, series(optimizeImages, reload));
+  watch(`${development}fonts/**/*`, series(fonts, reload));
+  done();
+};
